@@ -22,6 +22,7 @@
         let slides = window.open(pages.visual, '_blank');
 
         socket.on('send_page', page => {
+            console.log(page);
             if(page == 'jamboard')
                 jamboard.focus();
             else if(page == 'visual')

@@ -50,7 +50,7 @@
         <li><a id="rick">Rick Roll</a></li>
     </ul>
     <button id="move-jamboard">Move to Jamboard</button>
-    <button id="move-slides">Move to Slides</button>
+    <button id="move-visual">Move to Slides</button>
     <h1 id="count">Count: </h1>
     <input type="checkbox" id="box" name="box" />
     <label for="box">First Only</label>
@@ -58,10 +58,12 @@
     <script>
         const socket = io.connect();
 
-        toTag('a', id => socket.emit('send_page', {
-            id,
-            first_only: document.getElementById('box').checked
-        }));
+        Array.from(document.getElementsByTagName('a')).forEach(a => {
+            a.onclick = () => socket.emit('send_page', {
+                id: a.id,
+                first_only: document.getElementById('box').checked
+            });
+        });
 
         let default_page = document.getElementById('default');
 
@@ -77,13 +79,12 @@
 
         socket.emit('admin');
 
-        toTag('button', id => socket.emit('move', id));
-
-        function toTag(tag, func) {
-            Array.from(document.getElementsByTagName(tag)).forEach(el => {
-                el.onclick = () => func(el.id);
-            });
-        }
+        Array.from(document.getElementsByTagName('button')).forEach(button => {
+            button.onclick = () => {
+                console.log(button.id.split('-')[1]);
+                socket.emit('move', button.id.split('-')[1]);
+            };
+        });
     </script>
 </body>
 </html>

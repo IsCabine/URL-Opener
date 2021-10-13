@@ -37,12 +37,14 @@ io.sockets.on('connection', socket => {
     });
 
     socket.on('teacher', () => {
+        console.log('Teacher connected');
         teacher_index = teacher_sockets.length;
         teacher_sockets.push(socket);
 
-        socket.on('move', page => {
-            socket.emit(send_page, page);
-        });
+        admin_sockets.filter(Boolean).forEach(s => s.on('move', page => {
+            console.log(page);
+            socket.emit('send_page', page);
+        }));
     });
 
     let pages_opened = new Array();
@@ -65,7 +67,7 @@ io.sockets.on('connection', socket => {
         sendCount();
         if(admin_index > -1)
             admin_sockets[admin_index] = null;
-        socket.off();
+        socket.removeAllListeners();
     });
 
     socket.emit('default_page', default_page);
