@@ -50,7 +50,7 @@
         default_page.onkeypress = e => /[a-z]/i.test(e.key);
 
         default_page.oninput = () => {
-            socket.emit('default_page', default_page.value);
+            socket.emit('default_page', default_page.value.toLowerCase());
         };
     </script>
 </body>
