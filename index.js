@@ -20,9 +20,11 @@ app.use(express.static(path.join(__dirname, "public")))
 let count = 0;
 let default_page;
 let admin_sockets = new Array();
+let teacher_sockets = new Array();
 
 io.sockets.on('connection', socket => {
     let admin_index;
+    let teacher_index;
 
     console.log('A user connected');
     count++;
@@ -32,6 +34,15 @@ io.sockets.on('connection', socket => {
         admin_index = admin_sockets.length;
         admin_sockets.push(socket);
         socket.emit('user_count', count);
+    });
+
+    socket.on('teacher', () => {
+        teacher_index = teacher_sockets.length;
+        teacher_sockets.push(socket);
+
+        socket.on('move', page => {
+            socket.emit(send_page, page);
+        });
     });
 
     let pages_opened = new Array();
@@ -54,6 +65,7 @@ io.sockets.on('connection', socket => {
         sendCount();
         if(admin_index > -1)
             admin_sockets[admin_index] = null;
+        socket.off();
     });
 
     socket.emit('default_page', default_page);

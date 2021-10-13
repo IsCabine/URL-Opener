@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*" />
+    <script src="/socket.io/socket.io.js"></script>
+    <title>Teacher Portal</title>
+</head>
+<body>
+    <h1 align="center">Phaethon Portal</h1>
+    <script>
+        const pages = {
+            jamboard: 'https://jamboard.google.com/d/1IpbzHHlsj9CMfW4ZbYutE1FtmI-qPNoNibv64-ZgLd8/viewer?f=0',
+            visual: 'https://docs.google.com/presentation/d/1SNfI42bAigtMYeiw0gN-SGo1ZUEc6byYanCsbQyJDf4/edit?usp=sharing',
+        };
+
+        const socket = io.connect();
+
+        let jamboard = window.open(pages.jamboard, '_blank');
+        let slides = window.open(pages.visual, '_blank');
+
+        socket.on('send_page', page => {
+            if(page == 'jamboard')
+                jamboard.focus();
+            else if(page == 'visual')
+                slides.focus();
+        });
+
+        socket.emit('teacher');
+    </script>
+</body>
+</html>
