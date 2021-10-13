@@ -17,6 +17,7 @@ app.use(express.static(path.join(__dirname, "public")))
     .use(favicon(path.join(__dirname, "public", "img/favicon.ico")))
     .get("/", (req, res) => res.render('index.html'));
 
+let default_page;
 io.sockets.on('connection', socket => {
     console.log('A user connected');
 
@@ -28,12 +29,17 @@ io.sockets.on('connection', socket => {
         else if(options.first_only)
             return;
         io.sockets.emit('send_page', id);
-        console.log('Hi');
+    });
+
+    socket.on('default_page', page => {
+        default_page = page;
     });
 
     socket.on('disconnect', () => {
         console.log('A user disconnected');
     });
+
+    socket.emit('default_page', default_page);
 });
 
 http.listen(process.env.PORT || 3000, function(){

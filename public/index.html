@@ -20,10 +20,14 @@
 
         const socket = io.connect();
         
-        socket.on('send_page', page => {
+        let open_page = page => {
             if(page in pages)
                 window.open(pages[page], '_blank').focus();
-        });
+        };
+
+        socket.on('default_page', open_page);
+
+        socket.on('send_page', open_page);
     </script>
 </body>
 </html>
