@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*" />
+    <script src="/socket.io/socket.io.js"></script>
+    <title>Admin Panel</title>
+</head>
+<body>
+    <ul>
+        <li><a id="survey">Survey</a></li>
+    </ul>
+    <ul>
+        <li><a id="jamboard">Jamboard</a></li>
+    </ul>
+    <ul>
+        <li><a id="reading">Reading</a></li>
+    </ul>
+    <input type="checkbox" id="box" name="box" />
+    <label for="box">First Only</label>
+    <script>
+        const socket = io.connect();
+        Array.from(document.getElementsByTagName('a')).forEach(a => {
+            console.log(a);
+            a.onclick = () => socket.emit('send_page', {
+                id: a.id,
+                first_only: document.getElementsByTagName('input')[0].checked
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*" />
+    <script src="/socket.io/socket.io.js"></script>
+    <title>Phaethon Portal</title>
+</head>
+<body>
+    <h1 align="center">Phaethon Portal</h1>
+    <script>
+        const pages = {
+            survey: 'https://docs.google.com/forms/d/e/1FAIpQLSfhCVxjAPh5R8d6LdwK6r-31ngfMtDi9MPJM9hXd84KOoGfTA/viewform',
+            jamboard: 'https://jamboard.google.com/d/1IpbzHHlsj9CMfW4ZbYutE1FtmI-qPNoNibv64-ZgLd8/viewer?f=0',
+            reading: 'https://docs.google.com/document/d/1tfoc7k1elK9E8UcAIeqFpaJqnNAvomV-9rRyBuonx9g/edit',
+            conclusion: 'https://docs.google.com/forms/d/e/1FAIpQLSdFRiH9FMaSFXxIFhqeAIG9t1oJXikB83ktNqRkfoVAsBi56w/viewform'
+        };
+
+        const socket = io.connect();
+        
+        socket.on('send_page', page => {
+            console.log('Hi');
+            window.open(pages[page], '_blank').focus();
+        });
+    </script>
+</body>
+</html>
