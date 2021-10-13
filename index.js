@@ -17,9 +17,22 @@ app.use(express.static(path.join(__dirname, "public")))
     .use(favicon(path.join(__dirname, "public", "img/favicon.ico")))
     .get("/", (req, res) => res.render('index.html'));
 
+let count = 0;
 let default_page;
+let admin_sockets = new Array();
+
 io.sockets.on('connection', socket => {
+    let admin_index;
+
     console.log('A user connected');
+    count++;
+    sendCount();
+
+    socket.on('admin', () => {
+        admin_index = admin_sockets.length;
+        admin_sockets.push(socket);
+        socket.emit('user_count', count);
+    });
 
     let pages_opened = new Array();
     socket.on('send_page', options => {
@@ -37,6 +50,10 @@ io.sockets.on('connection', socket => {
 
     socket.on('disconnect', () => {
         console.log('A user disconnected');
+        count--;
+        sendCount();
+        if(admin_index > -1)
+            admin_sockets[admin_index] = null;
     });
 
     socket.emit('default_page', default_page);
@@ -45,3 +62,7 @@ io.sockets.on('connection', socket => {
 http.listen(process.env.PORT || 3000, function(){
     console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
 });
+
+function sendCount() {
+    admin_sockets.filter(Boolean).forEach(s => s.emit('user_count', count));
+}

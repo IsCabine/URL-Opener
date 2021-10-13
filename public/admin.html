@@ -18,6 +18,12 @@
         #default {
             text-transform: lowercase;
         }
+
+        h2 {
+             position: fixed;
+             bottom: 3px;
+             right: 3px;
+        }
     </style>
 </head>
 <body>
@@ -33,6 +39,16 @@
     <ul>
         <li><a id="conclusion">Conclusion</a></li>
     </ul>
+    <ul>
+        <li><a id="hw">Math HW</a></li>
+    </ul>
+    <ul>
+        <li><a id="visual">Visual Aids</a></li>
+    </ul>
+    <ul>
+        <li><a id="rick">Rick Roll</a></li>
+    </ul>
+    <h2 id="count">Count: </h2>
     <input type="checkbox" id="box" name="box" />
     <label for="box">First Only</label>
     <input type="text" id="default" placeholder="Default Page" />
@@ -52,6 +68,12 @@
         default_page.oninput = () => {
             socket.emit('default_page', default_page.value.toLowerCase());
         };
+
+        socket.on('user_count', count => {
+            document.getElementById('count').innerHTML = `Count: ${count}`;
+        });
+
+        socket.emit('admin');
     </script>
 </body>
 </html>
