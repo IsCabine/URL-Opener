@@ -24,10 +24,9 @@ io.sockets.on('connection', socket => {
     socket.on('send_page', options => {
         let id = options.id;
         if(pages_opened.indexOf(id) === -1)
-            if(options.first_only)
-                return;
-            else
-                pages_opened.push(id);
+            pages_opened.push(id);
+        else if(options.first_only)
+            return;
         io.sockets.emit('send_page', id);
         console.log('Hi');
     });

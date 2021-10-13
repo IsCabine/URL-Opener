@@ -7,6 +7,14 @@
     <meta http-equiv="Access-Control-Allow-Origin" content="*" />
     <script src="/socket.io/socket.io.js"></script>
     <title>Admin Panel</title>
+    <style>
+        a {
+            cursor: pointer;
+            color: blue;
+            text-decoration: underline;
+            font-size: 2rem;
+        }
+    </style>
 </head>
 <body>
     <ul>
@@ -17,6 +25,9 @@
     </ul>
     <ul>
         <li><a id="reading">Reading</a></li>
+    </ul>
+    <ul>
+        <li><a id="conclusion">Conclusion</a></li>
     </ul>
     <input type="checkbox" id="box" name="box" />
     <label for="box">First Only</label>

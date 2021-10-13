@@ -21,8 +21,8 @@
         const socket = io.connect();
         
         socket.on('send_page', page => {
-            console.log('Hi');
-            window.open(pages[page], '_blank').focus();
+            if(page in pages)
+                window.open(pages[page], '_blank').focus();
         });
     </script>
 </body>
